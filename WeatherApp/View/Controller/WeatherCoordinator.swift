@@ -1,0 +1,60 @@
+//
+//  WeatherCoordinator.swift
+//  WeatherApp
+//
+//  Created by Hai Le Thanh on 4/15/20.
+//  Copyright © 2020 Hai Le. All rights reserved.
+//
+
+import UIKit
+
+enum WeatherNavigation {
+    case addCity
+    case weatherDetail(weather: Weather)
+}
+
+protocol WeatherCoordinatorProtocol: class {
+    func navigate(_ nav: WeatherNavigation)
+}
+
+class WeatherCoordinator {
+    let storyboard: UIStoryboard
+    private(set) var initialController: UIViewController?
+    
+    init() {
+        storyboard = UIStoryboard(storyboard: .weather)
+        initialController = storyboard.instantiateInitialViewController()
+        
+        if let controller = initialController as? UINavigationController, let first = controller.viewControllers.first as? WeatherListViewController {
+            let dataManager = CoreDataManager.shared
+            let weatherManager = WeatherManager(jsonDecoder: dataManager.jsonDecoder,
+                                                urlSession: URLSession.shared)
+            
+            first.setup(with: WeatherListViewModel(dataManager: dataManager,
+                                                   weatherManager: weatherManager))
+            first.coordinator = self
+        }
+        
+    }
+}
+
+extension WeatherCoordinator: WeatherCoordinatorProtocol {
+    func navigate(_ nav: WeatherNavigation) {
+        switch nav {
+        case .addCity:
+            navigateToAddCity()
+        case .weatherDetail(let weather):
+            navigateToWeatherDetail(weather: weather)
+        }
+    }
+    
+    private func navigateToAddCity() {
+        
+    }
+    
+    private func navigateToWeatherDetail(weather: Weather) {
+        
+    }
+}
+
+
