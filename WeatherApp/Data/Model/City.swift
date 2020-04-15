@@ -31,6 +31,16 @@ class City: NSManagedObject, Decodable {
         case lat
     }
     
+    convenience init?(id: Int32, name: String, country: String, context: NSManagedObjectContext, saveToDB: Bool) {
+        guard let entity = NSEntityDescription.entity(forEntityName: City.entityName, in: context) else {
+            return nil
+        }
+        self.init(entity: entity, insertInto: saveToDB ? context : nil)
+        self.id = id
+        self.name = name
+        self.country = country
+    }
+    
     required convenience init(from decoder: Decoder) throws {
         guard let contextKey = CodingUserInfoKey.context,
             let context = decoder.userInfo[contextKey] as? NSManagedObjectContext,

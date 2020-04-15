@@ -19,13 +19,14 @@ protocol WeatherCoordinatorProtocol: class {
 
 class WeatherCoordinator {
     let storyboard: UIStoryboard
-    private(set) var initialController: UIViewController?
+    private(set) var initialController: UINavigationController?
     
     init() {
         storyboard = UIStoryboard(storyboard: .weather)
-        initialController = storyboard.instantiateInitialViewController()
+        initialController = storyboard.instantiateInitialViewController() as? UINavigationController
         
-        if let controller = initialController as? UINavigationController, let first = controller.viewControllers.first as? WeatherListViewController {
+        if let controller = initialController,
+            let first = controller.viewControllers.first as? WeatherListViewController {
             let dataManager = CoreDataManager.shared
             let weatherManager = WeatherManager(jsonDecoder: dataManager.jsonDecoder,
                                                 urlSession: URLSession.shared)
@@ -49,7 +50,11 @@ extension WeatherCoordinator: WeatherCoordinatorProtocol {
     }
     
     private func navigateToAddCity() {
-        
+        let controller: CitySearchViewController = storyboard.instantiateViewController()
+        let dataManager = CoreDataManager.shared
+        let viewModel = CitySearchViewModel(dataManager: dataManager)
+        controller.setup(with: viewModel)
+        initialController?.present(controller, animated: true, completion: nil)        
     }
     
     private func navigateToWeatherDetail(weather: Weather) {

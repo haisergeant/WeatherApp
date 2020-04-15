@@ -36,7 +36,8 @@ class WeatherListViewModel {
 extension WeatherListViewModel: WeatherListViewModelProtocol {
     func fetchData() {
         let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
-        cities = dataManager.fetchDataFromDB(sortDescriptors: [sortDescriptor])
+        cities = dataManager.fetchDataFromDB(predicate: nil,
+                                             sortDescriptors: [sortDescriptor])
         
         self.viewModels = cities.compactMap { city in            
             CityCellViewModel(city: city.name,

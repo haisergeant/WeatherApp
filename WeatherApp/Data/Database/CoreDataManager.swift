@@ -14,7 +14,8 @@ private struct Constant {
 
 protocol DataManagerProtocol {
     func saveIfNeeded() throws
-    func fetchDataFromDB<T: NSManagedObject>(sortDescriptors: [NSSortDescriptor]?) -> [T]
+    func fetchDataFromDB<T: NSManagedObject>(predicate: NSPredicate?,
+                                             sortDescriptors: [NSSortDescriptor]?) -> [T]
     func clearDataFromDB<T>(type: T.Type) where T: NSManagedObject
     func save<T: NSManagedObject>(_ object: T) throws
     var context: NSManagedObjectContext { get }
@@ -71,13 +72,11 @@ class CoreDataManager {
                 try? self.saveIfNeeded()
             }
             
-            DispatchQueue.global(qos: .background).async {
-                self.insertJSONDataIfNeeded(City.self, fileName: "city-list") { list in
-                    try? self.saveIfNeeded()
-                }
-            }
-            
-            
+//            DispatchQueue.global(qos: .background).async {
+//                self.insertJSONDataIfNeeded(City.self, fileName: "city-list") { list in
+//                    try? self.saveIfNeeded()
+//                }
+//            }
         }
     }
     
@@ -105,9 +104,11 @@ extension CoreDataManager: DataManagerProtocol {
         }
     }
     
-    func fetchDataFromDB<T: NSManagedObject>(sortDescriptors: [NSSortDescriptor]? = nil) -> [T] {
+    func fetchDataFromDB<T: NSManagedObject>(predicate: NSPredicate? = nil,
+                                             sortDescriptors: [NSSortDescriptor]? = nil) -> [T] {
         let fetchRequest = NSFetchRequest<T>(entityName: T.entityName)
         fetchRequest.sortDescriptors = sortDescriptors
+        fetchRequest.predicate = predicate
         do {
             let list = try context.fetch(fetchRequest)
             return list
