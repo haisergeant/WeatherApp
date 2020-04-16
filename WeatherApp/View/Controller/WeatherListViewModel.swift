@@ -12,7 +12,9 @@ protocol WeatherListViewModelProtocol {
     func bind(to view: WeatherListViewProtocol)
     func requestInfo(at index: Int)
     func stopRequestInfo(at index: Int)
-    func fetchData()
+    
+    func viewWillAppear()
+    func viewWillDisappear()
 }
 
 class WeatherListViewModel {
@@ -34,15 +36,16 @@ class WeatherListViewModel {
 }
 
 extension WeatherListViewModel: WeatherListViewModelProtocol {
-    func fetchData() {
+    private func fetchData() {
         let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
-        cities = dataManager.fetchDataFromDB(predicate: nil,
+        cities = dataManager.fetchDataFromDB(fetchLimit: 0,
+                                             predicate: nil,
                                              sortDescriptors: [sortDescriptor])
         
         self.viewModels = cities.compactMap { city in            
             CityCellViewModel(city: city.name,
                               country: Observable<String?>(city.country),
-                              temperature: Observable<String?>(nil))
+                              temperature: Observable<String?>(city.temp.degree))
         }
         
         view?.configure(with: viewModels)
@@ -70,5 +73,18 @@ extension WeatherListViewModel: WeatherListViewModelProtocol {
         let city = cities[index]
         
         weatherManager.disableTimer(cityId: String(city.id))
+    }
+    
+    func viewWillAppear() {
+        fetchData()
+        for i in 0..<cities.count {
+            requestInfo(at: i)
+        }
+    }
+    
+    func viewWillDisappear() {
+        for i in 0..<cities.count {
+            stopRequestInfo(at: i)
+        }
     }
 }

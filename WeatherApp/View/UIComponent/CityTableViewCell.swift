@@ -20,12 +20,11 @@ class CityTableViewCell: UITableViewCell, Reuseable, ViewConfigurable {
     @IBOutlet private weak var countryLabel: UILabel!
     @IBOutlet private weak var temperatureLabel: UILabel!
     
-    private var viewModel: BaseViewModel?
+    private var viewModel: CityCellViewModel?
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        guard let viewModel = viewModel as? CityCellViewModel else { return }
-        viewModel.temperature.valueChanged = nil
+        viewModel?.temperature.valueChanged = nil
     }
     
     func configure(with viewModel: BaseViewModel) {

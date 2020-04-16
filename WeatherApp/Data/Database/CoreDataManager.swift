@@ -14,7 +14,8 @@ private struct Constant {
 
 protocol DataManagerProtocol {
     func saveIfNeeded() throws
-    func fetchDataFromDB<T: NSManagedObject>(predicate: NSPredicate?,
+    func fetchDataFromDB<T: NSManagedObject>(fetchLimit: Int,
+                                             predicate: NSPredicate?,
                                              sortDescriptors: [NSSortDescriptor]?) -> [T]
     func clearDataFromDB<T>(type: T.Type) where T: NSManagedObject
     func save<T: NSManagedObject>(_ object: T) throws
@@ -54,7 +55,10 @@ class CoreDataManager {
             guard error == nil else {
                 fatalError("Cannot load persistent store with error")
             }
+            self.context.automaticallyMergesChangesFromParent = true
+            self.context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             completion()
+            
             self.insertDefaultDataIfNeed()
         })
     }
@@ -63,24 +67,31 @@ class CoreDataManager {
     private func insertDefaultDataIfNeed() {
         let userDefaults = UserDefaults.standard
         if userDefaults.object(forKey: Constant.firstLoad) == nil {
-            userDefaults.set(Constant.firstLoad, forKey: Constant.firstLoad)
             
-            insertJSONDataIfNeeded(Weather.self, fileName: "default-countries") { list in
+            
+            insertJSONDataIfNeeded(Weather.self, jsonDecoder: jsonDecoder, fileName: "default-countries") { list in
                 for (i, item) in list.enumerated() {
                     item.order = Int16(i)
                 }
                 try? self.saveIfNeeded()
             }
             
-//            DispatchQueue.global(qos: .background).async {
-//                self.insertJSONDataIfNeeded(City.self, fileName: "city-list") { list in
-//                    try? self.saveIfNeeded()
-//                }
-//            }
+            persistentContainer.performBackgroundTask { (context) in
+                let decoder = JSONDecoder()
+                if let key = CodingUserInfoKey.context {
+                    decoder.userInfo[key] = context
+                }
+                context.automaticallyMergesChangesFromParent = true
+                self.insertJSONDataIfNeeded(City.self, jsonDecoder: decoder, fileName: "city-list") { list in
+                    userDefaults.set(Constant.firstLoad, forKey: Constant.firstLoad)
+                    try? context.save()
+                }
+            }
         }
     }
     
     private func insertJSONDataIfNeeded<T: NSManagedObject>(_ type: T.Type,
+                                                            jsonDecoder: JSONDecoder,
                                                             fileName: String,
                                                             fileType: String = "json",
                                                             modification: (([T]) -> ())? = nil) where T: Decodable {
@@ -104,10 +115,12 @@ extension CoreDataManager: DataManagerProtocol {
         }
     }
     
-    func fetchDataFromDB<T: NSManagedObject>(predicate: NSPredicate? = nil,
+    func fetchDataFromDB<T: NSManagedObject>(fetchLimit: Int = 0,
+                                             predicate: NSPredicate? = nil,
                                              sortDescriptors: [NSSortDescriptor]? = nil) -> [T] {
         let fetchRequest = NSFetchRequest<T>(entityName: T.entityName)
         fetchRequest.sortDescriptors = sortDescriptors
+        fetchRequest.fetchLimit = fetchLimit
         fetchRequest.predicate = predicate
         do {
             let list = try context.fetch(fetchRequest)

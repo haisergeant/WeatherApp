@@ -85,6 +85,16 @@ class Weather: NSManagedObject, Decodable {
         case sunset
     }
     
+    convenience init?(id: Int32, name: String, country: String, context: NSManagedObjectContext, saveToDB: Bool) {
+        guard let entity = NSEntityDescription.entity(forEntityName: Weather.entityName, in: context) else {
+            return nil
+        }
+        self.init(entity: entity, insertInto: saveToDB ? context : nil)
+        self.id = id
+        self.name = name
+        self.country = country
+    }
+    
     required convenience init(from decoder: Decoder) throws {
         guard let contextKey = CodingUserInfoKey.context,
             let context = decoder.userInfo[contextKey] as? NSManagedObjectContext,

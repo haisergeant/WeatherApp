@@ -18,7 +18,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J87-bd-csm">
                         <rect key="frame" x="20" y="8" width="374" height="114"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="17º" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qj6-rH-y77">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="17º" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qj6-rH-y77">
                                 <rect key="frame" x="295" y="50" width="65" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="87h-nY-jyK"/>
@@ -28,16 +28,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="izL-IO-PfK">
-                                <rect key="frame" x="14" y="47" width="110.5" height="50.5"/>
+                                <rect key="frame" x="14" y="47" width="261" height="50.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New York" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1C-gQ-IqH">
-                                        <rect key="frame" x="0.0" y="0.0" width="110.5" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New York" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1C-gQ-IqH">
+                                        <rect key="frame" x="0.0" y="0.0" width="261" height="30"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="United States" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g47-Jx-yQE">
-                                        <rect key="frame" x="0.0" y="30" width="110.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="United States" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g47-Jx-yQE">
+                                        <rect key="frame" x="0.0" y="30" width="261" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -47,6 +47,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Qj6-rH-y77" firstAttribute="leading" secondItem="izL-IO-PfK" secondAttribute="trailing" constant="20" id="BN8-xh-ZPu"/>
                             <constraint firstAttribute="bottom" secondItem="Qj6-rH-y77" secondAttribute="bottom" constant="14" id="ImE-3m-Kvw"/>
                             <constraint firstItem="g47-Jx-yQE" firstAttribute="firstBaseline" secondItem="Qj6-rH-y77" secondAttribute="firstBaseline" id="LV3-Yt-UKD"/>
                             <constraint firstAttribute="height" constant="114" id="PQy-UH-FTc"/>

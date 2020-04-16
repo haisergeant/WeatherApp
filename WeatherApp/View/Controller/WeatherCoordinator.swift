@@ -53,8 +53,11 @@ extension WeatherCoordinator: WeatherCoordinatorProtocol {
         let controller: CitySearchViewController = storyboard.instantiateViewController()
         let dataManager = CoreDataManager.shared
         let viewModel = CitySearchViewModel(dataManager: dataManager)
-        controller.setup(with: viewModel)
-        initialController?.present(controller, animated: true, completion: nil)        
+        controller.setup(with: viewModel)        
+        
+        let navController = UINavigationController(rootViewController: controller)
+        navController.modalPresentationStyle = .fullScreen
+        initialController?.present(navController, animated: true, completion: nil)
     }
     
     private func navigateToWeatherDetail(weather: Weather) {

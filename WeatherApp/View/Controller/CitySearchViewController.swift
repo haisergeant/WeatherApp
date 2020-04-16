@@ -30,6 +30,18 @@ class CitySearchViewController: UIViewController {
         searchBar.delegate = self
         searchTableView.dataSource = self
         searchTableView.register(SearchCityTableViewCell.self)
+        
+        title = "Add new city"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeView))
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel?.saveSelection()
+    }
+    
+    @objc private func closeView() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -55,6 +67,15 @@ extension CitySearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: SearchCityTableViewCell = tableView.dequeueReuseableCell(indexPath: indexPath)
         cell.configure(with: viewModels[indexPath.row])
+        cell.delegate = self
         return cell
+    }
+}
+
+extension CitySearchViewController: SearchCityTableViewCellDelegate {
+    func searchCityCellDidTapButton(_ cell: SearchCityTableViewCell) {
+        guard let indexPath = searchTableView.indexPath(for: cell) else { return }
+        
+        viewModel?.toggleItem(at: indexPath.row)
     }
 }
