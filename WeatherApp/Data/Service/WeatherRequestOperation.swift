@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class WeatherRequestOperation: BaseOperation<Weather> {
     private let cityId: String
@@ -33,7 +34,18 @@ class WeatherRequestOperation: BaseOperation<Weather> {
                 if let error = error {
                     self.complete(result: .failure(error))
                 } else if let data = data {
-                    let result = try self.jsonDecoder.decode(Weather.self, from: data)
+                    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+                    context.parent = CoreDataManager.shared.context
+                    let decoder = JSONDecoder()
+                    if let key = CodingUserInfoKey.context {
+                        decoder.userInfo[key] = context
+                    }
+                    
+                    let result = try decoder.decode(Weather.self, from: data)
+                    
+                    context.perform {
+                        try? context.save()
+                    }
                     self.complete(result: .success(result))
                 }
             } catch {

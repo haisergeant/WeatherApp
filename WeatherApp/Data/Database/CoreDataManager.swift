@@ -39,7 +39,9 @@ class CoreDataManager {
     var backgroundJSONDecoder: JSONDecoder {
         let decoder = JSONDecoder()
         if let key = CodingUserInfoKey.context {
-            decoder.userInfo[key] = persistentContainer.newBackgroundContext()
+            let context = persistentContainer.newBackgroundContext()
+            context.automaticallyMergesChangesFromParent = true
+            decoder.userInfo[key] = context
         }
         return decoder
     }

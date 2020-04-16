@@ -59,7 +59,7 @@ extension WeatherListViewModel: WeatherListViewModelProtocol {
         weatherManager.setupTimer(cityId: String(city.id)) { result in
             switch result {
             case .success(let weather):
-                
+                try? self.dataManager.saveIfNeeded()
                 viewModel.country.value = weather.country
                 viewModel.temperature.value = weather.temp.degree
             case .failure(let error):

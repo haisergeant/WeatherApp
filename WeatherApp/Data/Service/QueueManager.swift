@@ -18,11 +18,6 @@ class QueueManager {
     }
     
     func queue(_ operation: Operation) {
-        print("======================================================")
-        print("executing: \(queue.operations.filter { $0.isExecuting }.count)")
-        print("cancel: \(queue.operations.filter { $0.isCancelled }.count)")
-        print("ready: \(queue.operations.filter { $0.isReady }.count)")
-        print("finish: \(queue.operations.filter { $0.isFinished }.count)")
         queue.addOperation(operation)
     }
 }

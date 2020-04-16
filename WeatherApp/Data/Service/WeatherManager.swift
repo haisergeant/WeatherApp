@@ -65,7 +65,9 @@ class WeatherManager {
                                                 urlFactory: urlFactory)
         operation.completionHandler = { result in
             self.operationDict.removeValue(forKey: cityId)
-            completionHandler(result)
+            DispatchQueue.main.async {
+                completionHandler(result)
+            }            
         }
         operationDict[cityId] = operation
         queueManager.queue(operation)
