@@ -44,11 +44,13 @@ class WeatherManager {
     }
     
     func disableTimer(cityId: String) {
-        if timerDict.keys.contains(cityId), let timer = timerDict[cityId], let operation = operationDict[cityId] {
-            timer.invalidate()
+        if timerDict.keys.contains(cityId) {
+            let timer = timerDict[cityId]
+            timer?.invalidate()
             timerDict.removeValue(forKey: cityId)
             handlerDict.removeValue(forKey: cityId)
-            operation.cancel()
+            let operation = operationDict[cityId]
+            operation?.cancel()
             operationDict.removeValue(forKey: cityId)
         }
     }

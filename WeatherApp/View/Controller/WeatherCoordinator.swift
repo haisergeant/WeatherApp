@@ -28,7 +28,7 @@ class WeatherCoordinator {
         if let controller = initialController,
             let first = controller.viewControllers.first as? WeatherListViewController {
             let dataManager = CoreDataManager.shared
-            let weatherManager = WeatherManager(jsonDecoder: dataManager.jsonDecoder,
+            let weatherManager = WeatherManager(jsonDecoder: dataManager.backgroundJSONDecoder,
                                                 urlSession: URLSession.shared)
             
             first.setup(with: WeatherListViewModel(dataManager: dataManager,
@@ -53,7 +53,7 @@ extension WeatherCoordinator: WeatherCoordinatorProtocol {
         let controller: CitySearchViewController = storyboard.instantiateViewController()
         let dataManager = CoreDataManager.shared
         let viewModel = CitySearchViewModel(dataManager: dataManager)
-        controller.setup(with: viewModel)        
+        controller.setup(with: viewModel)
         
         let navController = UINavigationController(rootViewController: controller)
         navController.modalPresentationStyle = .fullScreen

@@ -9,5 +9,5 @@
 import Foundation
 
 struct Constants {
-    static let timeIntervalRequest = 120.0
+    static let timeIntervalRequest = 10.0
 }

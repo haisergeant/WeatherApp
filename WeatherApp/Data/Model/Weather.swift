@@ -11,7 +11,7 @@ import CoreData
 
 @objc (Weather)
 class Weather: NSManagedObject, Decodable {
-    @NSManaged var id: Int32
+    @NSManaged var id: String
     @NSManaged var name: String
     @NSManaged var order: Int16
     
@@ -58,13 +58,6 @@ class Weather: NSManagedObject, Decodable {
         case lat
     }
     
-    private enum WeatherCodingKeys: String, CodingKey {
-        case id
-        case main
-        case description
-        case icon
-    }
-    
     private enum TempCodingKeys: String, CodingKey {
         case temp
         case feels_like
@@ -85,7 +78,14 @@ class Weather: NSManagedObject, Decodable {
         case sunset
     }
     
-    convenience init?(id: Int32, name: String, country: String, context: NSManagedObjectContext, saveToDB: Bool) {
+    private struct WeatherData: Decodable {
+        var id: Int32
+        var main: String
+        var description: String
+        var icon: String
+    }
+    
+    convenience init?(id: String, name: String, country: String, context: NSManagedObjectContext, saveToDB: Bool) {
         guard let entity = NSEntityDescription.entity(forEntityName: Weather.entityName, in: context) else {
             return nil
         }
@@ -108,7 +108,7 @@ class Weather: NSManagedObject, Decodable {
         do {
             let values = try decoder.container(keyedBy: CodingKeys.self)
             self.name = try values.decode(String.self, forKey: .name)
-            self.id = try values.decode(Int32.self, forKey: .id)
+            self.id = String(try values.decode(Int.self, forKey: .id))
             
             let coord = try? values.nestedContainer(keyedBy: CoordinateCodingKeys.self, forKey: .coord)
             if let coord = coord {
@@ -116,12 +116,13 @@ class Weather: NSManagedObject, Decodable {
                 self.longitude = try coord.decode(Double.self, forKey: .lon)
             }
             
-            let weather = try? values.nestedContainer(keyedBy: WeatherCodingKeys.self, forKey: .weather)
-            if let weather = weather {
-                self.weatherId = try weather.decode(Int32.self, forKey: .id)
-                self.weatherMain = try weather.decode(String.self, forKey: .main)
-                self.weatherDescription = try weather.decode(String.self, forKey: .description)
-                self.weatherIcon = try weather.decode(String.self, forKey: .icon)
+            let weatherData = try? values.decode([WeatherData].self, forKey: .weather)
+            
+            if let weather = weatherData?.first {
+                self.weatherId = weather.id
+                self.weatherMain = weather.main
+                self.weatherDescription = weather.description
+                self.weatherIcon = weather.icon
             }
             
             let main = try? values.nestedContainer(keyedBy: TempCodingKeys.self, forKey: .main)

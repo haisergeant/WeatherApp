@@ -12,13 +12,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private let coordinator = WeatherCoordinator()
+    private var coordinator: WeatherCoordinator?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         CoreDataManager.shared.setup()
-            
-        window?.rootViewController = coordinator.initialController
+        coordinator = WeatherCoordinator()
+        window?.rootViewController = coordinator?.initialController
         
         return true
     }

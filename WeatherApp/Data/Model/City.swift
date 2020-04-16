@@ -11,7 +11,7 @@ import CoreData
 
 @objc (City)
 class City: NSManagedObject, Decodable {
-    @NSManaged var id: Int32
+    @NSManaged var id: String
     @NSManaged var name: String
     @NSManaged var state: String
     @NSManaged var country: String
@@ -31,7 +31,7 @@ class City: NSManagedObject, Decodable {
         case lat
     }
     
-    convenience init?(id: Int32, name: String, country: String, context: NSManagedObjectContext, saveToDB: Bool) {
+    convenience init?(id: String, name: String, country: String, context: NSManagedObjectContext, saveToDB: Bool) {
         guard let entity = NSEntityDescription.entity(forEntityName: City.entityName, in: context) else {
             return nil
         }
@@ -53,7 +53,7 @@ class City: NSManagedObject, Decodable {
         
         do {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            self.id = try values.decode(Int32.self, forKey: .id)
+            self.id = String(try values.decode(Int.self, forKey: .id))
             self.name = try values.decode(String.self, forKey: .name)
             self.state = try values.decode(String.self, forKey: .state)
             self.country = try values.decode(String.self, forKey: .country)
@@ -64,6 +64,7 @@ class City: NSManagedObject, Decodable {
                 self.longitude = try coord.decode(Double.self, forKey: .lon)
             }
         } catch {
+            print(error)
             throw ManagedObjectError.decodeFail
         }
         

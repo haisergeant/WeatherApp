@@ -17,8 +17,10 @@ protocol DataManagerProtocol {
     func fetchDataFromDB<T: NSManagedObject>(fetchLimit: Int,
                                              predicate: NSPredicate?,
                                              sortDescriptors: [NSSortDescriptor]?) -> [T]
-    func clearDataFromDB<T>(type: T.Type) where T: NSManagedObject
+    func clearDataFromDB<T: NSManagedObject>(type: T.Type, predicate: NSPredicate?)
     func save<T: NSManagedObject>(_ object: T) throws
+    func insertObject(object: NSManagedObject)       
+    func deleteObject(object: NSManagedObject)
     var context: NSManagedObjectContext { get }
 }
 
@@ -33,6 +35,14 @@ class CoreDataManager {
         }
         return decoder
     }()
+    
+    var backgroundJSONDecoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        if let key = CodingUserInfoKey.context {
+            decoder.userInfo[key] = persistentContainer.newBackgroundContext()
+        }
+        return decoder
+    }
     
     private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "WeatherApp")
@@ -131,14 +141,23 @@ extension CoreDataManager: DataManagerProtocol {
         }
     }
     
-    func clearDataFromDB<T>(type: T.Type) where T: NSManagedObject {
+    func clearDataFromDB<T: NSManagedObject>(type: T.Type, predicate: NSPredicate? = nil) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: T.entityName)
+        fetchRequest.predicate = predicate
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
             try context.execute(batchDeleteRequest)
         } catch {
             print(error)
         }
+    }
+    
+    func insertObject(object: NSManagedObject) {
+        context.insert(object)
+    }
+    
+    func deleteObject(object: NSManagedObject) {
+        context.delete(object)
     }
     
     func save<T: NSManagedObject>(_ object: T) throws {

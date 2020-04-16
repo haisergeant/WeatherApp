@@ -24,20 +24,20 @@ class WeatherRequestOperation: BaseOperation<Weather> {
     
     override func main() {
         guard let url = urlFactory.weatherURL(cityId: cityId) else {
-            completionHandler?(.failure(APIError.invalidAPIError))
+            complete(result: .failure(APIError.invalidAPIError))
             return
         }
         
         dataTask = urlSession.dataTask(with: url) { (data, response, error) in
             do {
                 if let error = error {
-                    self.completionHandler?(.failure(error))
+                    self.complete(result: .failure(error))
                 } else if let data = data {
                     let result = try self.jsonDecoder.decode(Weather.self, from: data)
-                    self.completionHandler?(.success(result))
+                    self.complete(result: .success(result))
                 }
             } catch {
-                self.completionHandler?(.failure(APIError.jsonFormatError))
+                self.complete(result: .failure(APIError.jsonFormatError))
             }
         }
         dataTask?.resume()
