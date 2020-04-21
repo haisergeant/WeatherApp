@@ -28,8 +28,7 @@ class WeatherCoordinator {
         if let controller = initialController,
             let first = controller.viewControllers.first as? WeatherListViewController {
             let dataManager = CoreDataManager.shared
-            let weatherManager = WeatherManager(jsonDecoder: dataManager.backgroundJSONDecoder,
-                                                urlSession: URLSession.shared)
+            let weatherManager = WeatherManager()
             
             first.setup(with: WeatherListViewModel(dataManager: dataManager,
                                                    weatherManager: weatherManager))

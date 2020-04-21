@@ -58,10 +58,10 @@ extension WeatherListViewModel: WeatherListViewModelProtocol {
         // TODO: Debounce?
         weatherManager.setupTimer(cityId: String(city.id)) { result in
             switch result {
-            case .success(let weather):
+            case .success(_):
                 try? self.dataManager.saveIfNeeded()
-                viewModel.country.value = weather.country
-                viewModel.temperature.value = weather.temp.degree
+                viewModel.country.value = city.country
+                viewModel.temperature.value = city.temp.degree
             case .failure(let error):
                 print(error)
             }

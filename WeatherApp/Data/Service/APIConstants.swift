@@ -17,3 +17,7 @@ enum APIError: Error {
     case invalidAPIError
     case jsonFormatError
 }
+
+enum CoreDataError: Error {
+    case saveContextError
+}

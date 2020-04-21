@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+
 @objc (City)
 class City: NSManagedObject, Decodable {
     @NSManaged var id: String

@@ -36,16 +36,6 @@ class CoreDataManager {
         return decoder
     }()
     
-    var backgroundJSONDecoder: JSONDecoder {
-        let decoder = JSONDecoder()
-        if let key = CodingUserInfoKey.context {
-            let context = persistentContainer.newBackgroundContext()
-            context.automaticallyMergesChangesFromParent = true
-            decoder.userInfo[key] = context
-        }
-        return decoder
-    }
-    
     private(set) lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "WeatherApp")
         if let description = container.persistentStoreDescriptions.first, let storeType = storeType {
@@ -80,7 +70,7 @@ class CoreDataManager {
         let userDefaults = UserDefaults.standard
         if userDefaults.object(forKey: Constant.firstLoad) == nil {
             
-            
+            // Use jsonDecoder with main context here because we need to add default cities
             insertJSONDataIfNeeded(Weather.self, jsonDecoder: jsonDecoder, fileName: "default-countries") { list in
                 for (i, item) in list.enumerated() {
                     item.order = Int16(i)
@@ -94,6 +84,8 @@ class CoreDataManager {
                     decoder.userInfo[key] = context
                 }
                 context.automaticallyMergesChangesFromParent = true
+                
+                // Use background thread and background context to add large data
                 self.insertJSONDataIfNeeded(City.self, jsonDecoder: decoder, fileName: "city-list") { list in
                     userDefaults.set(Constant.firstLoad, forKey: Constant.firstLoad)
                     try? context.save()

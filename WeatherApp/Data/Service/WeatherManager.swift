@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import CoreData
 
 class WeatherManager {
     private let queueManager: QueueManager
     private let urlFactory: URLFactory
-    private let jsonDecoder: JSONDecoder
+    private let parentContext: NSManagedObjectContext
     private let urlSession: URLSession
     
     typealias OperationCompletionHandler = (Result<Weather, Error>) -> Void
@@ -21,11 +22,11 @@ class WeatherManager {
     
     init(queueManager: QueueManager = QueueManager.shared,
          urlFactory: URLFactory = URLFactory(),
-         jsonDecoder: JSONDecoder,
-         urlSession: URLSession) {
+         urlSession: URLSession = .shared,
+         parentContext: NSManagedObjectContext = CoreDataManager.shared.context) {
         self.queueManager = queueManager
         self.urlFactory = urlFactory
-        self.jsonDecoder = jsonDecoder
+        self.parentContext = parentContext
         self.urlSession = urlSession
     }
     
@@ -58,11 +59,11 @@ class WeatherManager {
     @objc private func configureTimer(timer: Timer) {
         guard let userInfo = timer.userInfo as? [String: String],
             let cityId = userInfo["cityId"],
-            let completionHandler = handlerDict[cityId] else { return }
-        let operation = WeatherRequestOperation(cityId: cityId,
-                                                jsonDecoder: jsonDecoder,
-                                                urlSession: urlSession,
-                                                urlFactory: urlFactory)
+            let completionHandler = handlerDict[cityId],
+            let operation = WeatherRequestOperation(cityId: cityId,
+                                                    urlFactory: urlFactory,
+                                                    urlSession: urlSession,
+                                                    parentContext: parentContext) else { return }
         operation.completionHandler = { result in
             self.operationDict.removeValue(forKey: cityId)
             DispatchQueue.main.async {
