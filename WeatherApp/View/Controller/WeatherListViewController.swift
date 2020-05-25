@@ -57,6 +57,11 @@ class WeatherListViewController: UITableViewController {
         viewModel?.stopRequestInfo(at: indexPath.row)
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        coordinator?.navigate(.weatherDetail(weather: viewModel.weather(at: indexPath.row)))
+    }
+    
     @objc func addMoreCity() {
         coordinator?.navigate(.addCity)
     }

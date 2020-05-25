@@ -60,7 +60,11 @@ extension WeatherCoordinator: WeatherCoordinatorProtocol {
     }
     
     private func navigateToWeatherDetail(weather: Weather) {
+        let controller: WeatherDetailViewController = storyboard.instantiateViewController()
+        let viewModel = WeatherDetailViewModel(weather: weather)
+        controller.setup(with: viewModel)
         
+        initialController?.pushViewController(controller, animated: true)
     }
 }
 

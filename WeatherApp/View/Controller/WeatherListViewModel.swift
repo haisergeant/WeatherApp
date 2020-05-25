@@ -15,6 +15,8 @@ protocol WeatherListViewModelProtocol {
     
     func viewWillAppear()
     func viewWillDisappear()
+    
+    func weather(at index: Int) -> Weather
 }
 
 class WeatherListViewModel {
@@ -86,5 +88,9 @@ extension WeatherListViewModel: WeatherListViewModelProtocol {
         for i in 0..<cities.count {
             stopRequestInfo(at: i)
         }
+    }
+    
+    func weather(at index: Int) -> Weather {
+        return cities[index]
     }
 }
