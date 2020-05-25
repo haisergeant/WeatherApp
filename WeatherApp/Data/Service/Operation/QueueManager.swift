@@ -13,11 +13,15 @@ class QueueManager {
     
     private let queue = OperationQueue()
     
-    private init() {
-        queue.maxConcurrentOperationCount = 10
+    init(maxConcurrentOperationCount: Int = 10) {
+        queue.maxConcurrentOperationCount = maxConcurrentOperationCount
     }
     
     func queue(_ operation: Operation) {
         queue.addOperation(operation)
+    }
+    
+    func cancelAllOperations() {
+        queue.cancelAllOperations()
     }
 }
