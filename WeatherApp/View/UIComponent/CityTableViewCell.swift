@@ -8,10 +8,15 @@
 
 import UIKit
 
+enum ValueState<T: Equatable>: Equatable {
+    case loading
+    case value(value: T)
+}
+
 struct CityCellViewModel: BaseViewModel {
     let city: String
     let country: Observable<String?>
-    let temperature: Observable<String?>
+    let temperature: Observable<ValueState<String>>
     
     let color: Color
     
@@ -29,6 +34,7 @@ class CityTableViewCell: UITableViewCell, Reuseable, ViewConfigurable {
     @IBOutlet private weak var countryLabel: UILabel!
     @IBOutlet private weak var temperatureLabel: UILabel!
     @IBOutlet private weak var container: UIView!
+    @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     
     private var viewModel: CityCellViewModel?
     
@@ -47,18 +53,32 @@ class CityTableViewCell: UITableViewCell, Reuseable, ViewConfigurable {
         countryLabel.text = viewModel.country.value
         countryLabel.textColor = viewModel.color.countryColor
         
-        temperatureLabel.text = viewModel.temperature.value
+        configureTemperature(with: viewModel.temperature.value)
         temperatureLabel.textColor = viewModel.color.tempColor
         
         container.backgroundColor = viewModel.color.backgroundColor
         
         viewModel.temperature.valueChanged = { value in
-            self.temperatureLabel.text = viewModel.temperature.value
+            self.configureTemperature(with: value)
         }
         
         viewModel.country.valueChanged = { value in
             self.countryLabel.text = viewModel.country.value
         }
         
+    }
+    
+    private func configureTemperature(with state: ValueState<String>) {
+        switch state {
+        case  .loading:
+            loadingIndicator.isHidden = false
+            temperatureLabel.isHidden = true
+            loadingIndicator.startAnimating()
+        case .value(let value):
+            loadingIndicator.isHidden = true
+            temperatureLabel.isHidden = false
+            loadingIndicator.stopAnimating()
+            temperatureLabel.text = value
+        }
     }
 }

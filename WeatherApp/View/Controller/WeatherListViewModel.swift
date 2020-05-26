@@ -66,7 +66,7 @@ extension WeatherListViewModel: WeatherListViewModelProtocol {
             let color = self.colors[index % self.colors.count]
             viewModels.append(CityCellViewModel(city: city.name,
                                                 country: Observable<String?>(city.country),
-                                                temperature: Observable<String?>(city.temp.degree),
+                                                temperature: Observable<ValueState<String>>(city.temp == 0 ? .loading : .value(value: city.temp.degree)),
                                                 color: color))
         }
                 
@@ -83,7 +83,7 @@ extension WeatherListViewModel: WeatherListViewModelProtocol {
             case .success(_):
                 try? self.dataManager.saveIfNeeded()
                 viewModel.country.value = city.country
-                viewModel.temperature.value = city.temp.degree
+                viewModel.temperature.value = ValueState.value(value: city.temp.degree)
             case .failure(let error):
                 print(error)
             }

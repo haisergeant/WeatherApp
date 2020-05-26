@@ -45,7 +45,6 @@
 		E8496E31247BCFBC007C7277 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8496E27247BCFBC007C7277 /* ObservableTests.swift */; };
 		E8496E37247BD341007C7277 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8496E36247BD341007C7277 /* URLSessionProtocol.swift */; };
 		E8496E3A247BE1B6007C7277 /* QueueManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8496E39247BE1B6007C7277 /* QueueManagerTests.swift */; };
-		E8496E3D247BE251007C7277 /* CoreDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8496E3C247BE251007C7277 /* CoreDataManagerTests.swift */; };
 		E8496E40247CA154007C7277 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8496E3F247CA154007C7277 /* Color+Extension.swift */; };
 		E87F54B72446CC4F00204432 /* CitySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87F54B62446CC4F00204432 /* CitySearchViewController.swift */; };
 		E87F54B92446CC5B00204432 /* CitySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87F54B82446CC5B00204432 /* CitySearchViewModel.swift */; };
@@ -106,7 +105,6 @@
 		E8496E27247BCFBC007C7277 /* ObservableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		E8496E36247BD341007C7277 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		E8496E39247BE1B6007C7277 /* QueueManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueManagerTests.swift; sourceTree = "<group>"; };
-		E8496E3C247BE251007C7277 /* CoreDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTests.swift; sourceTree = "<group>"; };
 		E8496E3F247CA154007C7277 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		E8496E41247CAF40007C7277 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E87F54B62446CC4F00204432 /* CitySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchViewController.swift; sourceTree = "<group>"; };
@@ -192,7 +190,6 @@
 			children = (
 				E8496E26247BCFBC007C7277 /* Data */,
 				E8496E20247BCFBC007C7277 /* Mock */,
-				E8496E23247BCFBC007C7277 /* View */,
 				10BB10E2243C0B9A001082FE /* Info.plist */,
 			);
 			path = WeatherAppTests;
@@ -315,26 +312,10 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
-		E8496E23247BCFBC007C7277 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				E8496E24247BCFBC007C7277 /* Controller */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		E8496E24247BCFBC007C7277 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
 		E8496E26247BCFBC007C7277 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				E8496E27247BCFBC007C7277 /* ObservableTests.swift */,
-				E8496E3B247BE1F4007C7277 /* Database */,
 				E8496E2C247BCFBC007C7277 /* Service */,
 			);
 			path = Data;
@@ -354,14 +335,6 @@
 				E8496E39247BE1B6007C7277 /* QueueManagerTests.swift */,
 			);
 			path = Operation;
-			sourceTree = "<group>";
-		};
-		E8496E3B247BE1F4007C7277 /* Database */ = {
-			isa = PBXGroup;
-			children = (
-				E8496E3C247BE251007C7277 /* CoreDataManagerTests.swift */,
-			);
-			path = Database;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -511,7 +484,6 @@
 			files = (
 				E8496E31247BCFBC007C7277 /* ObservableTests.swift in Sources */,
 				E8496E2F247BCFBC007C7277 /* MockURLSession.swift in Sources */,
-				E8496E3D247BE251007C7277 /* CoreDataManagerTests.swift in Sources */,
 				E8496E3A247BE1B6007C7277 /* QueueManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

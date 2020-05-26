@@ -27,6 +27,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Rw7-a9-aZw">
+                                <rect key="frame" x="307.5" y="55" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="0hu-RK-Tdu"/>
+                                    <constraint firstAttribute="width" constant="40" id="VJx-cD-vbx"/>
+                                </constraints>
+                            </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="izL-IO-PfK">
                                 <rect key="frame" x="14" y="47" width="261" height="50.5"/>
                                 <subviews>
@@ -48,11 +55,13 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Qj6-rH-y77" firstAttribute="leading" secondItem="izL-IO-PfK" secondAttribute="trailing" constant="20" id="BN8-xh-ZPu"/>
+                            <constraint firstItem="Rw7-a9-aZw" firstAttribute="centerX" secondItem="Qj6-rH-y77" secondAttribute="centerX" id="Gop-2X-sts"/>
                             <constraint firstAttribute="bottom" secondItem="Qj6-rH-y77" secondAttribute="bottom" constant="14" id="ImE-3m-Kvw"/>
                             <constraint firstItem="g47-Jx-yQE" firstAttribute="firstBaseline" secondItem="Qj6-rH-y77" secondAttribute="firstBaseline" id="LV3-Yt-UKD"/>
                             <constraint firstAttribute="height" constant="114" id="PQy-UH-FTc"/>
                             <constraint firstAttribute="trailing" secondItem="Qj6-rH-y77" secondAttribute="trailing" constant="14" id="aYb-mg-L2P"/>
                             <constraint firstItem="izL-IO-PfK" firstAttribute="leading" secondItem="J87-bd-csm" secondAttribute="leading" constant="14" id="iNb-aJ-rPA"/>
+                            <constraint firstItem="Rw7-a9-aZw" firstAttribute="centerY" secondItem="Qj6-rH-y77" secondAttribute="centerY" id="lgo-ml-eil"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="izL-IO-PfK" secondAttribute="bottom" id="sg5-e6-fe5"/>
                         </constraints>
                     </view>
@@ -68,6 +77,7 @@
                 <outlet property="cityLabel" destination="l1C-gQ-IqH" id="m4J-dE-htn"/>
                 <outlet property="container" destination="J87-bd-csm" id="Gah-vt-FrG"/>
                 <outlet property="countryLabel" destination="g47-Jx-yQE" id="cey-L7-a7W"/>
+                <outlet property="loadingIndicator" destination="Rw7-a9-aZw" id="ano-jm-irF"/>
                 <outlet property="temperatureLabel" destination="Qj6-rH-y77" id="4tj-vk-U2j"/>
             </connections>
             <point key="canvasLocation" x="-86.956521739130437" y="46.205357142857139"/>
