@@ -40,17 +40,17 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vv9-6W-Gig">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="sWK-vn-7Q5">
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sWK-vn-7Q5">
                                                 <rect key="frame" x="20" y="8" width="374" height="172"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Sydney" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnH-zE-q3H">
-                                                        <rect key="frame" x="0.0" y="0.0" width="374" height="91.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="374" height="71.5"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cloudy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTR-JD-uui">
-                                                        <rect key="frame" x="0.0" y="91.5" width="374" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="81.5" width="374" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -60,7 +60,7 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="60" id="4Ff-Hn-qHe"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -100,6 +100,7 @@
                         <outlet property="descriptionLabel" destination="GTR-JD-uui" id="yIt-8F-gYZ"/>
                         <outlet property="tableView" destination="1OJ-2C-q93" id="hUF-QF-6cq"/>
                         <outlet property="temperatureLabel" destination="1mO-A2-VGu" id="bdd-EY-abg"/>
+                        <outlet property="topContainer" destination="vv9-6W-Gig" id="NCu-2M-fru"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eYP-BJ-4SY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -12,6 +12,15 @@ struct CityCellViewModel: BaseViewModel {
     let city: String
     let country: Observable<String?>
     let temperature: Observable<String?>
+    
+    let color: Color
+    
+    struct Color {
+        let cityColor: UIColor
+        let countryColor: UIColor
+        let tempColor: UIColor
+        let backgroundColor: UIColor
+    }
 }
 
 class CityTableViewCell: UITableViewCell, Reuseable, ViewConfigurable {
@@ -19,6 +28,7 @@ class CityTableViewCell: UITableViewCell, Reuseable, ViewConfigurable {
     @IBOutlet private weak var cityLabel: UILabel!
     @IBOutlet private weak var countryLabel: UILabel!
     @IBOutlet private weak var temperatureLabel: UILabel!
+    @IBOutlet private weak var container: UIView!
     
     private var viewModel: CityCellViewModel?
     
@@ -32,8 +42,15 @@ class CityTableViewCell: UITableViewCell, Reuseable, ViewConfigurable {
         
         self.viewModel = viewModel
         cityLabel.text = viewModel.city
+        cityLabel.textColor = viewModel.color.cityColor
+        
         countryLabel.text = viewModel.country.value
+        countryLabel.textColor = viewModel.color.countryColor
+        
         temperatureLabel.text = viewModel.temperature.value
+        temperatureLabel.textColor = viewModel.color.tempColor
+        
+        container.backgroundColor = viewModel.color.backgroundColor
         
         viewModel.temperature.valueChanged = { value in
             self.temperatureLabel.text = viewModel.temperature.value

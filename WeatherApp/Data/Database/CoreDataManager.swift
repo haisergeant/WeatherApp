@@ -65,8 +65,7 @@ class CoreDataManager {
         })
     }
     
-    // TODO: not generic?
-    private func insertDefaultDataIfNeed() {
+    func insertDefaultDataIfNeed() {
         let userDefaults = UserDefaults.standard
         if userDefaults.object(forKey: Constant.firstLoad) == nil {
             

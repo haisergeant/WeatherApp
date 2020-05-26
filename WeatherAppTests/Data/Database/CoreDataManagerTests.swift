@@ -7,6 +7,7 @@
 	
 
 import XCTest
+import CoreData
 @testable import WeatherApp
 
 class CoreDataManagerTests: XCTestCase {
@@ -16,17 +17,7 @@ class CoreDataManagerTests: XCTestCase {
         super.setUp()
         self.manager = CoreDataManager.shared
     }
-    
-    func testLoadedAndHaveDefaultData() {
-        XCTAssert(manager.persistentContainer.name == "WeatherApp", "Should have the name of WeatherApp")
-        
-        let cities: [City] = manager.fetchDataFromDB()
-        XCTAssert(cities.count > 0, "Have default data")
-        
-        let countries: [Weather] = manager.fetchDataFromDB()
-        XCTAssert(countries.count == 3, "Have 3 default city for weather")
-    }
-    
+       
     func testAddNewCityRecord() {
         let id = "Test id"
         let name = "Test name"
@@ -44,29 +35,5 @@ class CoreDataManagerTests: XCTestCase {
         } catch {
             XCTAssertFalse(true, "Should not throw error")
         }
-    }
-    
-    func testFetchDefaultWeather() {
-        let weathers: [Weather] = manager.fetchDataFromDB()
-        
-        XCTAssertEqual(weathers.count, 3)
-        
-        var predicate = NSPredicate(format: "id == '4163971'")
-        var list: [Weather] = manager.fetchDataFromDB(predicate: predicate)
-        var first = list.first!
-        XCTAssertEqual(list.count, 1)
-        XCTAssertEqual(first.name, "Melbourne")
-        
-        predicate = NSPredicate(format: "id == '2147714'")
-        list = manager.fetchDataFromDB(predicate: predicate)
-        first = list.first!
-        XCTAssertEqual(list.count, 1)
-        XCTAssertEqual(first.name, "Sydney")
-        
-        predicate = NSPredicate(format: "id == '2174003'")
-        list = manager.fetchDataFromDB(predicate: predicate)
-        first = list.first!
-        XCTAssertEqual(list.count, 1)
-        XCTAssertEqual(first.name, "Brisbane")
     }
 }

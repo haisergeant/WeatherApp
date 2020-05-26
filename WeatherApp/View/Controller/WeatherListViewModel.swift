@@ -26,6 +26,24 @@ class WeatherListViewModel {
     
     private var cities: [Weather] = []
     private(set) var viewModels: [CityCellViewModel] = []
+    private lazy var colors: [CityCellViewModel.Color] = [
+        CityCellViewModel.Color(cityColor: .appDarkPurple,
+                                countryColor: .appDarkRed,
+                                tempColor: .appDarkRed,
+                                backgroundColor: .appLightPurple),
+        CityCellViewModel.Color(cityColor: .appDarkPurple,
+                                countryColor: .appDarkGreen,
+                                tempColor: .appDarkGreen,
+                                backgroundColor: .appLightPurple),
+        CityCellViewModel.Color(cityColor: .appDarkPurple,
+                                countryColor: .appDarkOrange,
+                                tempColor: .appDarkOrange,
+                                backgroundColor: .appLightPurple),
+        CityCellViewModel.Color(cityColor: .appDarkPurple,
+                                countryColor: .appDarkPurple,
+                                tempColor: .appDarkPurple,
+                                backgroundColor: .appLightPurple),
+    ]
     
     init(dataManager: DataManagerProtocol, weatherManager: WeatherManager) {
         self.dataManager = dataManager
@@ -43,13 +61,15 @@ extension WeatherListViewModel: WeatherListViewModelProtocol {
         cities = dataManager.fetchDataFromDB(fetchLimit: 0,
                                              predicate: nil,
                                              sortDescriptors: [sortDescriptor])
-        
-        self.viewModels = cities.compactMap { city in            
-            CityCellViewModel(city: city.name,
-                              country: Observable<String?>(city.country),
-                              temperature: Observable<String?>(city.temp.degree))
+        self.viewModels.removeAll()
+        for (index, city) in cities.enumerated() {
+            let color = self.colors[index % self.colors.count]
+            viewModels.append(CityCellViewModel(city: city.name,
+                                                country: Observable<String?>(city.country),
+                                                temperature: Observable<String?>(city.temp.degree),
+                                                color: color))
         }
-        
+                
         view?.configure(with: viewModels)
     }
     

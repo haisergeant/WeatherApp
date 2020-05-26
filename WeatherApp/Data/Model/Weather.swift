@@ -140,7 +140,7 @@ class Weather: NSManagedObject, Decodable {
             let wind = try? values.nestedContainer(keyedBy: WindKeys.self, forKey: .wind)
             if let wind = wind {
                 self.windSpeed = try wind.decode(Double.self, forKey: .speed)
-                self.windDegree = try wind.decode(Double.self, forKey: .deg)
+                self.windDegree = (try? wind.decode(Double.self, forKey: .deg)) ?? 0
             }
             
             let sys = try? values.nestedContainer(keyedBy: SysKeys.self, forKey: .sys)

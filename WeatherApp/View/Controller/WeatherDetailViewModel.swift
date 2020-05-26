@@ -25,13 +25,29 @@ class WeatherDetailViewModel {
     private let weather: Weather
     private let viewModels: [TitleDescriptionCellViewModel]
     
+    
     init(weather: Weather) {
         self.weather = weather
+    
+        let colors: [TitleDescriptionCellViewModel.Color] = [
+            TitleDescriptionCellViewModel.Color(titleColor: .appDarkPurple,
+                                    descriptionColor: .appDarkRed),
+            TitleDescriptionCellViewModel.Color(titleColor: .appDarkPurple,
+                                    descriptionColor: .appDarkGreen),
+            TitleDescriptionCellViewModel.Color(titleColor: .appDarkPurple,
+                                    descriptionColor: .appDarkOrange),
+        ]
         
         self.viewModels = [
-            TitleDescriptionCellViewModel(title: "Min temperature", description: weather.tempMin.degree),
-            TitleDescriptionCellViewModel(title: "Max temperature", description: weather.tempMax.degree),
-            TitleDescriptionCellViewModel(title: "Humidity", description: String(format: "%.0f%%", weather.humidity))
+            TitleDescriptionCellViewModel(title: "Min temperature",
+                                          description: weather.tempMin.degree,
+                                          color: colors[0]),
+            TitleDescriptionCellViewModel(title: "Max temperature",
+                                          description: weather.tempMax.degree,
+                                          color: colors[1]),
+            TitleDescriptionCellViewModel(title: "Humidity",
+                                          description: String(format: "%.0f%%", weather.humidity),
+                                          color: colors[2])
         ]
     }
 }

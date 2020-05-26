@@ -15,6 +15,7 @@ protocol WeatherDetailViewProtocol: class {
 class WeatherDetailViewController: UIViewController {
     private var viewModel: WeatherDetailViewModelProtocol?
     
+    @IBOutlet private weak var topContainer: UIView!
     @IBOutlet private weak var cityLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var temperatureLabel: UILabel!
@@ -43,9 +44,16 @@ class WeatherDetailViewController: UIViewController {
 
 extension WeatherDetailViewController: WeatherDetailViewProtocol {
     func configure(with viewModel: WeatherDetailViewModelProtocol) {
+        topContainer.backgroundColor = .appLightPurple
+        
         cityLabel.text = viewModel.city
+        cityLabel.textColor = .appDarkPurple
+        
         descriptionLabel.text = viewModel.weatherDescription
+        descriptionLabel.textColor = .appDarkOrange
+        
         temperatureLabel.text = viewModel.temperature
+        temperatureLabel.textColor = .appDarkGreen
         
         tableView.reloadData()
     }
