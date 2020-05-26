@@ -28,7 +28,7 @@ class WeatherDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
+        configureSubviews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,9 +36,34 @@ class WeatherDetailViewController: UIViewController {
         viewModel?.viewWillAppear()
     }
     
-    private func configureTableView() {
+    private func configureSubviews() {
         tableView.register(TitleDescriptionTableViewCell.self)
         tableView.separatorStyle = .none
+        tableView.alpha = 0
+        topContainer.alpha = 0
+        
+        cityLabel.transform = .init(scaleX: 0, y: 0)
+        descriptionLabel.transform = .init(scaleX: 0, y: 0)
+        temperatureLabel.transform = .init(scaleX: 0, y: 0)
+    }
+    
+    private func animateSubviews() {
+        topContainer.animate([
+            .changeAlpha(duration: 0.3, alpha: 1.0)
+        ])
+        tableView.animate([
+            .changeAlpha(duration: 0.5, delay: 1, alpha: 1.0)
+        ])
+        
+        cityLabel.animate([
+            .scale(duration: 0.5, delay: 0.4, scale: 1.0)
+        ])
+        descriptionLabel.animate([
+            .scale(duration: 0.5, delay: 0.5, scale: 1.0)
+        ])
+        temperatureLabel.animate([
+            .scale(duration: 0.5, delay: 0.7, scale: 1.0)
+        ])
     }
 }
 
@@ -56,6 +81,8 @@ extension WeatherDetailViewController: WeatherDetailViewProtocol {
         temperatureLabel.textColor = .appDarkGreen
         
         tableView.reloadData()
+        
+        animateSubviews()
     }
 }
 

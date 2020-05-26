@@ -6,6 +6,12 @@ Develop a simple app, which lets users add and view current weather based on the
 
 Initially, users will have 3 cities: Sydney, Melbourne and Brisbane. Users can add or remove city.
 
+Screenshots:
+
+
+<img src="screenshot/list-view.png" width="240" />
+<img src="screenshot/detail-view.png" width="240" />
+
 ## Some important notes
 - Not blocking user interaction when calling API requests.
 - Persist user selection by storing data in database.
